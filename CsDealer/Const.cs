@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 
-
 namespace CsDealer
 {
     public static class Const

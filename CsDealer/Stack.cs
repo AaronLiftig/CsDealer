@@ -108,6 +108,11 @@ namespace CsDealer
             return leftStack.Equals(rightObj);
         }
 
+        public int Count()
+        {
+            return Cards.Count;
+        }
+
 
         public static bool operator !=(Stack leftStack, object rightObj)
         {
@@ -365,33 +370,19 @@ namespace CsDealer
         }
 
 
-        public List<int> FindList(List<object> terms, int limit = 0, bool sort = false,
+        public List<int> FindList(List<string> terms, int limit = 0, bool sort = false,
             Dictionary<string, Dictionary<string, int>> ranks = null)
         {
             List<Card> cards = Cards;
             List<int> foundIndicies = new();
             int count = 0;
-            object term;
+            string term;
 
             if (limit == 0)
             {
                 for (int t = 0; t < terms.Count; t++)
                 {
                     term = terms[t];
-
-                    if (term is string)
-                    {
-                        term = (string)term;
-                    }
-                    else if (term is char)
-                    {
-                        term = (char)term;
-                    }
-                    else
-                    {
-                        throw new ArgumentException($"The term '{term}' in the {t} index in"
-                            + " 'terms' list is not of type string or char.");
-                    }
 
                     for (int i = 0; i < cards.Count; i++)
                     {
@@ -407,20 +398,6 @@ namespace CsDealer
                 for (int t = 0; t < terms.Count; t++)
                 {
                     term = terms[t];
-
-                    if (term is string)
-                    {
-                        term = (string)term;
-                    }
-                    else if (term is char)
-                    {
-                        term = (char)term;
-                    }
-                    else
-                    {
-                        throw new ArgumentException($"The term '{term}' in the {t} index in"
-                            + " 'terms' list is not of type string or char.");
-                    }
 
                     for (int i = 0; i < cards.Count; i++)
                     {
@@ -472,9 +449,9 @@ namespace CsDealer
 
                 indices.Add(index);
             }
-            else if (term is string || term is char)
+            else if (term is string)
             {
-                indices = Tools.Find(cards, term, limit: limit);
+                indices = Tools.FindCard(cards, (string)term, limit: limit);
 
                 foreach (int index in indices)
                 {
@@ -483,7 +460,7 @@ namespace CsDealer
             }
             else
             {
-                throw new ArgumentException($"The term '{term}' is not of type string, char, or int.");
+                throw new ArgumentException($"The term '{term}' is not of type string or int.");
             }
 
             for (int i = 0; i < cards.Count; i++)
@@ -507,25 +484,12 @@ namespace CsDealer
         }
 
 
-        public List<int> Find(object term, int limit = 0, bool sort = false,
+        public List<int> Find(string term, int limit = 0, bool sort = false,
             Dictionary<string, Dictionary<string, int>> ranks = null)
         {
             List<Card> cards = Cards;
             List<int> foundIndicies = new();
             int count = 0;
-
-            if (term is string)
-            {
-                term = (string)term;
-            }
-            else if (term is char)
-            {
-                term = (char)term;
-            }
-            else
-            {
-                throw new ArgumentException($"The term {term} is not of type string or char.");
-            }
 
             if (limit == 0)
             {
@@ -599,9 +563,9 @@ namespace CsDealer
                     gotCards.Add(cards[index]);
                     allIndices.Add(index);
                 }
-                else if (term is string || term is char)
+                else if (term is string)
                 {
-                    indices = this.Find(term, limit: limit);
+                    indices = this.Find((string)term, limit: limit);
                     tempIndices.Clear();
 
                     foreach (int index in indices)
@@ -623,8 +587,7 @@ namespace CsDealer
                 }
                 else
                 {
-                    throw new ArgumentException($"The term '{term}' in index {t} is not of type string,"
-                        + " char, or int.");
+                    throw new ArgumentException($"The term '{term}' in index {t} is not of type string or int.");
                 }
             }
 
