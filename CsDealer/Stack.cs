@@ -23,7 +23,7 @@ namespace CsDealer
                 ranks = Const.DEFAULT_RANKS;
             }
 
-            this._cards = cards;
+            _cards = cards;
             this.ranks = ranks;
 
             if (sort)
@@ -108,9 +108,12 @@ namespace CsDealer
             return leftStack.Equals(rightObj);
         }
 
-        public int Count()
+        public int Count
         {
-            return Cards.Count;
+            get
+            {
+                return Cards.Count;
+            }
         }
 
 
@@ -122,19 +125,18 @@ namespace CsDealer
 
         public override bool Equals(object rightObj)
         {
-            List<Card> leftCards;
+            List<Card> leftCards = Cards;
             List<Card> rightCards;
 
             if (rightObj.GetType() == typeof(Stack))
             {
                 Stack rightCasted = (Stack)rightObj;
 
-                if (this.Size == rightCasted.Size)
+                if (Size == rightCasted.Size)
                 {
-                    leftCards = this.Cards;
                     rightCards = rightCasted.Cards;
 
-                    for (int i = 0; i < this.Size; i++)
+                    for (int i = 0; i < Size; i++)
                     {
                         if (leftCards[i] != rightCards[i])
                         {
@@ -153,12 +155,11 @@ namespace CsDealer
             {
                 Deck rightCasted = (Deck)rightObj;
 
-                if (this.Size == rightCasted.Size)
+                if (Size == rightCasted.Size)
                 {
-                    leftCards = this.Cards;
                     rightCards = rightCasted.Cards;
 
-                    for (int i = 0; i < this.Size; i++)
+                    for (int i = 0; i < Size; i++)
                     {
                         if (leftCards[i] != rightCards[i])
                         {
@@ -175,12 +176,11 @@ namespace CsDealer
             }
             else if (rightObj is List<Card>)
             {
-                leftCards = this.Cards;
                 rightCards = rightObj as List<Card>;
 
-                if (this.Size == rightCards.Count)
+                if (Size == rightCards.Count)
                 {
-                    for (int i = 0; i < this.Size; i++)
+                    for (int i = 0; i < Size; i++)
                     {
                         if (leftCards[i] != rightCards[i])
                         {
@@ -292,11 +292,11 @@ namespace CsDealer
         {
             get
             {
-                return this._cards;
+                return _cards;
             }
             set
             {
-                this._cards = value;
+                _cards = value;
             }
         }
 
@@ -565,7 +565,7 @@ namespace CsDealer
                 }
                 else if (term is string)
                 {
-                    indices = this.Find((string)term, limit: limit);
+                    indices = Find((string)term, limit: limit);
                     tempIndices.Clear();
 
                     foreach (int index in indices)
@@ -637,7 +637,7 @@ namespace CsDealer
             }
             else
             {
-                var splitCards = this.Split(index, false);
+                var splitCards = Split(index, false);
                 List<Card> beforeCards = splitCards.Item1.Cards;
                 List<Card> afterCards = splitCards.Item2.Cards;
                 Cards = beforeCards.Concat(cards).Concat(afterCards).ToList();
@@ -669,7 +669,7 @@ namespace CsDealer
             }
             else
             {
-                var splitCards = this.Split(index, false);
+                var splitCards = Split(index, false);
                 List<Card> beforeCards = splitCards.Item1.Cards;
                 List<Card> afterCards = splitCards.Item2.Cards;
                 Cards = beforeCards.Concat(cards).Concat(afterCards).ToList();

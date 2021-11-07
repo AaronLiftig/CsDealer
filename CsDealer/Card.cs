@@ -23,8 +23,8 @@ namespace CsDealer
                 this.suit = suit;
             }
 
-            this.abbrev = CardAbbrev(this.value, this.suit);
-            this.name = CardName(this.value, this.suit);
+            abbrev = CardAbbrev(this.value, this.suit);
+            name = CardName(this.value, this.suit);
         }
 
 
@@ -86,7 +86,7 @@ namespace CsDealer
 
         public override int GetHashCode()
         {
-            Tuple<string, string> cardTuple = new(this.value, this.suit);
+            Tuple<string, string> cardTuple = new(value, suit);
 
             return cardTuple.GetHashCode();
         }
@@ -94,13 +94,13 @@ namespace CsDealer
 
         public string Repr()
         {
-            return $"Card(value={this.value}, suit={this.suit})";
+            return $"Card(value={value}, suit={suit})";
         }
 
 
         public string Str()
         {
-            return $"{this.name}";
+            return $"{name}";
         }
 
 
@@ -108,7 +108,7 @@ namespace CsDealer
         {
             if (card is Card)
             {
-                return this.value == ((Card)card).value && this.suit == ((Card)card).suit;
+                return value == ((Card)card).value && suit == ((Card)card).suit;
             }
             else
             {
@@ -130,13 +130,13 @@ namespace CsDealer
 
                 if (ranks.ContainsKey("suits"))
                 {
-                    return ranks["values"][this.value] == ranks["values"][_other.value]
+                    return ranks["values"][value] == ranks["values"][_other.value]
                         &&
-                        ranks["suits"][this.suit] == ranks["suits"][_other.suit];
+                        ranks["suits"][suit] == ranks["suits"][_other.suit];
                 }
                 else
                 {
-                    return ranks["values"][this.value] == ranks["values"][_other.value];
+                    return ranks["values"][value] == ranks["values"][_other.value];
                 }
             }
             else
@@ -159,16 +159,16 @@ namespace CsDealer
 
                 if (ranks.ContainsKey("suits"))
                 {
-                    return ranks["values"][this.value] >= ranks["values"][_other.value]
+                    return ranks["values"][value] >= ranks["values"][_other.value]
                         || (
-                            ranks["suits"][this.suit] >= ranks["suits"][_other.suit]
+                            ranks["suits"][suit] >= ranks["suits"][_other.suit]
                             &&
-                            ranks["suits"][this.suit] >= ranks["suits"][_other.suit]
+                            ranks["suits"][suit] >= ranks["suits"][_other.suit]
                             );
                 }
                 else
                 {
-                    return ranks["values"][this.value] >= ranks["values"][_other.value];
+                    return ranks["values"][value] >= ranks["values"][_other.value];
                 }
             }
             else
@@ -191,16 +191,16 @@ namespace CsDealer
 
                 if (ranks.ContainsKey("suits"))
                 {
-                    return ranks["values"][this.value] > ranks["values"][_other.value]
+                    return ranks["values"][value] > ranks["values"][_other.value]
                         || (
-                            ranks["suits"][this.suit] >= ranks["suits"][_other.suit]
+                            ranks["suits"][suit] >= ranks["suits"][_other.suit]
                             &&
-                            ranks["suits"][this.suit] > ranks["suits"][_other.suit]
+                            ranks["suits"][suit] > ranks["suits"][_other.suit]
                             );
                 }
                 else
                 {
-                    return ranks["values"][this.value] > ranks["values"][_other.value];
+                    return ranks["values"][value] > ranks["values"][_other.value];
                 }
             }
             else
@@ -223,16 +223,16 @@ namespace CsDealer
 
                 if (ranks.ContainsKey("suits"))
                 {
-                    return ranks["values"][this.value] <= ranks["values"][_other.value]
+                    return ranks["values"][value] <= ranks["values"][_other.value]
                         || (
-                            ranks["suits"][this.suit] <= ranks["suits"][_other.suit]
+                            ranks["suits"][suit] <= ranks["suits"][_other.suit]
                             &&
-                            ranks["suits"][this.suit] <= ranks["suits"][_other.suit]
+                            ranks["suits"][suit] <= ranks["suits"][_other.suit]
                             );
                 }
                 else
                 {
-                    return ranks["values"][this.value] <= ranks["values"][_other.value];
+                    return ranks["values"][value] <= ranks["values"][_other.value];
                 }
             }
             else
@@ -255,16 +255,16 @@ namespace CsDealer
 
                 if (ranks.ContainsKey("suits"))
                 {
-                    return ranks["values"][this.value] < ranks["values"][_other.value]
+                    return ranks["values"][value] < ranks["values"][_other.value]
                         || (
-                            ranks["suits"][this.suit] <= ranks["suits"][_other.suit]
+                            ranks["suits"][suit] <= ranks["suits"][_other.suit]
                             &&
-                            ranks["suits"][this.suit] < ranks["suits"][_other.suit]
+                            ranks["suits"][suit] < ranks["suits"][_other.suit]
                             );
                 }
                 else
                 {
-                    return ranks["values"][this.value] < ranks["values"][_other.value];
+                    return ranks["values"][value] < ranks["values"][_other.value];
                 }
             }
             else
@@ -287,13 +287,13 @@ namespace CsDealer
 
                 if (ranks.ContainsKey("suits"))
                 {
-                    return ranks["values"][this.value] != ranks["values"][_other.value]
+                    return ranks["values"][value] != ranks["values"][_other.value]
                         &&
-                        ranks["suits"][this.suit] != ranks["suits"][_other.suit];
+                        ranks["suits"][suit] != ranks["suits"][_other.suit];
                 }
                 else
                 {
-                    return ranks["values"][this.value] != ranks["values"][_other.value];
+                    return ranks["values"][value] != ranks["values"][_other.value];
                 }
             }
             else

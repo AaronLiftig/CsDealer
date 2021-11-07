@@ -28,13 +28,13 @@ namespace CsDealer
                 ranks = Const.DEFAULT_RANKS;
             }
 
-            this._cards = cards;
+            _cards = cards;
             this.jokers = jokers;
             this.numJokers = numJokers;
             this.rebuild = rebuild;
             this.reshuffle = reshuffle;
             this.ranks = ranks;
-            this.decksUsed = 0;
+            decksUsed = 0;
 
             if (build)
             {
@@ -122,7 +122,7 @@ namespace CsDealer
                 numJokers = this.numJokers;
             }
 
-            this.decksUsed += 1;
+            decksUsed += 1;
 
             Cards.AddRange(Tools.BuildCards(jokers, numJokers));
         }
@@ -147,7 +147,7 @@ namespace CsDealer
 
             if (!shuffle)
             {
-                shuffle = this.reshuffle;
+                shuffle = reshuffle;
             }
 
             if (rebuild || num <= size)

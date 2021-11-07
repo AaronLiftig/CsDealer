@@ -39,9 +39,8 @@ namespace CsDealer
             }
 
             List<Card> sortedCards = SortCards(cards, ranks);
-            List<Card> copiedCards = cards.ToList();
-            copiedCards.Reverse();
-            List<Card> reversedCards = copiedCards;
+            List<Card> reversedCards = cards.ToList();
+            reversedCards.Reverse();
 
             if (cards.SequenceEqual(sortedCards) || reversedCards.SequenceEqual(sortedCards))
             {
@@ -51,7 +50,6 @@ namespace CsDealer
             {
                 return false;
             }
-
         }
 
 
@@ -441,14 +439,16 @@ namespace CsDealer
                 ranks = Const.DEFAULT_RANKS;
             }
 
+            Console.WriteLine(cards);
+
             if (ranks.ContainsKey("suits"))
             {
-                cards = (List<Card>)cards.OrderBy(x => x != null ? ranks["suits"][x.suit] : 0);
+                cards = cards.OrderBy(x => x.suit != null ? ranks["suits"][x.suit] : 0).ToList();
             }
 
             if (ranks.ContainsKey("values"))
             {
-                cards = (List<Card>)cards.OrderBy(x => ranks["values"][x.value]);
+                cards = cards.OrderBy(x => ranks["values"][x.value]).ToList();
             }
 
             return cards;
