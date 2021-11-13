@@ -439,8 +439,6 @@ namespace CsDealer
                 ranks = Const.DEFAULT_RANKS;
             }
 
-            Console.WriteLine(cards);
-
             if (ranks.ContainsKey("suits"))
             {
                 cards = cards.OrderBy(x => x.suit != null ? ranks["suits"][x.suit] : 0).ToList();

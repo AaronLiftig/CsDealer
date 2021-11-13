@@ -47,17 +47,7 @@ namespace CsDealer
         {
             Deck newDeck;
 
-            if (other.GetType() == typeof(Stack))
-            {
-                List<Card> cardList = new();
-
-                cardList.AddRange(deck.Cards);
-
-                cardList.AddRange(((Stack)other).Cards);
-
-                newDeck = new Deck(cards: cardList);
-            }
-            else if (other.GetType() == typeof(Deck))
+            if (other.GetType() == typeof(Deck))
             {
                 List<Card> cardList = new();
 
@@ -65,7 +55,17 @@ namespace CsDealer
 
                 cardList.AddRange(((Deck)other).Cards);
 
-                newDeck = new Deck(cards: cardList);
+                newDeck = new Deck(cards: cardList, build: false);
+            }
+            else if (other.GetType() == typeof(Stack))
+            {
+                List<Card> cardList = new();
+
+                cardList.AddRange(deck.Cards);
+
+                cardList.AddRange(((Stack)other).Cards);
+
+                newDeck = new Deck(cards: cardList, build: false);
             }
             else if (other is List<Card>)
             {
@@ -76,7 +76,7 @@ namespace CsDealer
                 List<Card> otherCards = other as List<Card>;
                 cardList.AddRange(otherCards);
 
-                newDeck = new Deck(cards: cardList);
+                newDeck = new Deck(cards: cardList, build: false);
             }
             else
             {

@@ -1,6 +1,8 @@
 ﻿using NUnit.Framework;
 using CsDealer;
 using System.Collections.Generic;
+using System;
+using System.Linq;
 
 namespace CsDealerTest
 {
@@ -36,24 +38,20 @@ namespace CsDealerTest
         {
             Assert.AreEqual(gotCards.Count, 4);
 
-            int i = 0;
-            foreach(string name in names)
+            for (int i = 0; i < names.Count; i++)
             {
-                Assert.AreEqual(stack.Cards[gotCards[i]].name, name);
-                i += 1;
+                Assert.AreEqual(stack.Cards[gotCards[i]].name, names[i]);
             }
         }
 
         public static void GetListHelper(List<Card> left, List<Card> gotCards)
         {
-            Assert.AreEqual(left.Count, 4);
-            Assert.AreEqual(gotCards.Count, 0);
+            Assert.AreEqual(gotCards.Count, 4);
+            Assert.AreEqual(left.Count, 0);
 
-            int i = 0;
-            foreach (string name in names)
+            for (int i = 0; i < names.Count; i++)
             {
-                Assert.AreEqual(gotCards[i].name, name);
-                i += 1;
+                Assert.AreEqual(gotCards[i].name, names[i]);
             }
         }
 
@@ -111,7 +109,7 @@ namespace CsDealerTest
             {
                 bool result2 = Tools.CompareStacks(deck.Cards, shuffledDeck.Cards, sorted: true);
                 Assert.IsFalse(result2);
-            }   
+            }
         }
 
         [Test]
@@ -178,6 +176,169 @@ namespace CsDealerTest
             List<int> found = Tools.FindList(stack.Cards, names);
 
             FindListHelper(stack, found);
+        }
+
+        [Test]
+        public void TestFindListAbbrev()
+        {
+            List<string> abbrevList = new() { "AS", "2D", "QH", "7C" };
+
+            List<int> found = Tools.FindList(stack.Cards, abbrevList);
+
+            FindListHelper(stack, found);
+        }
+
+        [Test]
+        public void TestFindListPartialValue()
+        {
+            List<string> partialList = new() { "Ace", "2", "Queen", "7" };
+
+            List<int> found = Tools.FindList(stack.Cards, partialList);
+
+            FindListHelper(stack, found);
+        }
+
+        [Test]
+        public void TestFindListPartialSuit()
+        {
+            List<string> partialList = new() { "Spades", "Diamonds", "Hearts", "Clubs" };
+
+            List<int> found = Tools.FindList(stack.Cards, partialList);
+
+            FindListHelper(stack, found);
+        }
+
+        [Test]
+        public void TestFindListMixed()
+        {
+            List<string> mixedList = new() { "AS", "2 of Diamonds", "Hearts", "7" };
+
+            List<int> found = Tools.FindList(stack.Cards, mixedList);
+
+            FindListHelper(stack, found);
+        }
+
+        [Test]
+        public void TestFindListLimit()
+        {
+            List<int> found = Tools.FindList(stack.Cards, new() { "Spades" }, limit: 1);
+
+            Assert.AreEqual(found.Count, 1);
+        }
+
+        [Test]
+        public void TestGetCardAbbrev()
+        {
+            var (left, gotCards) = Tools.GetCard(deck.Cards, "AS");
+            Card card = gotCards[0];
+
+            Assert.AreEqual(gotCards.Count, 1);
+            Assert.AreEqual(left.Count, 51);
+            Assert.AreEqual(card.name, "Ace of Spades");
+        }
+
+        [Test]
+        public void TestGetCardFull()
+        {
+            var (left, gotCards) = Tools.GetCard(deck.Cards, "Ace of Spades");
+            Card card = gotCards[0];
+
+            Assert.AreEqual(gotCards.Count, 1);
+            Assert.AreEqual(left.Count, 51);
+            Assert.AreEqual(card.name, "Ace of Spades");
+        }
+
+        [Test]
+        public void TestGetCardPartialValue()
+        {
+            var (left, gotCards) = Tools.GetCard(deck.Cards, "Ace");
+
+            Assert.AreEqual(gotCards.Count, 4);
+            Assert.AreEqual(left.Count, 48);
+
+            foreach (Card card in gotCards)
+            {
+                Assert.AreEqual(card.value, "Ace");
+            }
+        }
+
+        [Test]
+        public void TestGetCardPartialSuit()
+        {
+            var (left, gotCards) = Tools.GetCard(deck.Cards, "Spades");
+
+            Assert.AreEqual(gotCards.Count, 13);
+            Assert.AreEqual(left.Count, 39);
+
+            foreach (Card card in gotCards)
+            {
+                Assert.AreEqual(card.suit, "Spades");
+            }
+        }
+
+        [Test]
+        public void TestGetCardLimit()
+        {
+            var (left, gotCards) = Tools.GetCard(deck.Cards, "Spades", limit: 1);
+
+            Assert.AreEqual(gotCards.Count, 1);
+            Assert.AreEqual(left.Count, 51);
+        }
+
+        [Test]
+        public void TestGetListFull()
+        {
+            var (left, gotCards) = Tools.GetList(stack.Cards, names.Cast<object>().ToList());
+
+            GetListHelper(left, gotCards);
+        }
+
+        [Test]
+        public void TestGetListAbbrev()
+        {
+            List<object> abbrevList = new() { "AS", "2D", "QH", "7C" };
+
+            var (left, gotCards) = Tools.GetList(stack.Cards, abbrevList);
+
+            GetListHelper(left, gotCards);
+        }
+
+        [Test]
+        public void TestGetListPartialValue()
+        {
+            List<object> partialList = new() { "Ace", "2", "Queen", "7" };
+
+            var (left, gotCards) = Tools.GetList(stack.Cards, partialList);
+
+            GetListHelper(left, gotCards);
+        }
+
+        [Test]
+        public void TestGetListPartialSuit()
+        {
+            List<object> partialList = new() { "Spades", "Diamonds", "Hearts", "Clubs" };
+
+            var (left, gotCards) = Tools.GetList(stack.Cards, partialList);
+
+            GetListHelper(left, gotCards);
+        }
+
+        [Test]
+        public void TestGetListMixed()
+        {
+            List<object> mixedList = new() { "AS", "2 of Diamonds", "Hearts", "7" };
+
+            var (left, gotCards) = Tools.GetList(stack.Cards, mixedList);
+
+            GetListHelper(left, gotCards);
+        }
+
+        [Test]
+        public void TestGetListLimit()
+        {
+            var (_, gotCards) = Tools.GetList(stack.Cards, new() { "Spades" }, limit: 1);
+
+            Assert.AreEqual(gotCards.Count, 1);
         }
     }
 }

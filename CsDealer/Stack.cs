@@ -37,23 +37,23 @@ namespace CsDealer
         {
             Stack newStack;
 
-            if (other.GetType() == typeof(Stack))
-            {
-                List<Card> cardList = new();
-
-                cardList.AddRange(stack.Cards);
-
-                cardList.AddRange(((Stack)other).Cards);
-
-                newStack = new Stack(cards: cardList);
-            }
-            else if (other.GetType() == typeof(Deck))
+            if (other.GetType() == typeof(Deck))
             {
                 List<Card> cardList = new();
 
                 cardList.AddRange(stack.Cards);
 
                 cardList.AddRange(((Deck)other).Cards);
+
+                newStack = new Stack(cards: cardList);
+            }
+            else if (other.GetType() == typeof(Stack))
+            {
+                List<Card> cardList = new();
+
+                cardList.AddRange(stack.Cards);
+
+                cardList.AddRange(((Stack)other).Cards);
 
                 newStack = new Stack(cards: cardList);
             }
@@ -128,9 +128,9 @@ namespace CsDealer
             List<Card> leftCards = Cards;
             List<Card> rightCards;
 
-            if (rightObj.GetType() == typeof(Stack))
+            if (rightObj.GetType() == typeof(Deck))
             {
-                Stack rightCasted = (Stack)rightObj;
+                Deck rightCasted = (Deck)rightObj;
 
                 if (Size == rightCasted.Size)
                 {
@@ -151,9 +151,9 @@ namespace CsDealer
                     return false;
                 }
             }
-            else if (rightObj.GetType() == typeof(Deck))
+            else if (rightObj.GetType() == typeof(Stack))
             {
-                Deck rightCasted = (Deck)rightObj;
+                Stack rightCasted = (Stack)rightObj;
 
                 if (Size == rightCasted.Size)
                 {
