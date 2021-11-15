@@ -345,17 +345,19 @@ namespace CsDealer
         }
 
 
-        public void Empty()
+        public List<Card> Empty(bool returnCards = false)
         {
-            Cards = new List<Card>();
-        }
-
-
-        public List<Card> EmptyAndReturn()
-        {
-            List<Card> cards = Cards.ToList();
-            Cards = new List<Card>();
-            return cards;
+            if (!returnCards) 
+            {
+                Cards = new List<Card>();
+                return null;
+            }
+            else
+            {
+                List<Card> cards = Cards.ToList();
+                Cards = new List<Card>();
+                return cards;
+            }
         }
 
 
@@ -638,7 +640,7 @@ namespace CsDealer
         }
 
 
-        public void InsertCard(Card card, int index = -1)
+        public void Insert(Card card, int index = -1)
         {
             int size = Size;
 
