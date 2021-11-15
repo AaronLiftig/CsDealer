@@ -10,8 +10,7 @@ namespace CsDealer
         public List<Card> _cards;
         public Dictionary<string, Dictionary<string, int>> ranks;
 
-        public Stack(List<Card> cards = null, bool sort = false,
-            Dictionary<string, Dictionary<string, int>> ranks = null)
+        public Stack(List<Card> cards = null, bool sort = false, Dictionary<string, Dictionary<string, int>> ranks = null)
         {
             if (cards == null)
             {
@@ -33,46 +32,34 @@ namespace CsDealer
         }
 
 
-        public static Stack operator +(Stack stack, object other)
+        public static Stack operator +(Stack stack, Stack other)
         {
             Stack newStack;
 
-            if (other.GetType() == typeof(Deck))
-            {
-                List<Card> cardList = new();
+            List<Card> cardList = new();
 
-                cardList.AddRange(stack.Cards);
+            cardList.AddRange(stack.Cards);
 
-                cardList.AddRange(((Deck)other).Cards);
+            cardList.AddRange(((Stack)other).Cards);
 
-                newStack = new Stack(cards: cardList);
-            }
-            else if (other.GetType() == typeof(Stack))
-            {
-                List<Card> cardList = new();
+            newStack = new Stack(cards: cardList);
 
-                cardList.AddRange(stack.Cards);
+            return newStack;
+        }
 
-                cardList.AddRange(((Stack)other).Cards);
 
-                newStack = new Stack(cards: cardList);
-            }
-            else if (other is List<Card>)
-            {
-                List<Card> cardList = new();
+        public static Stack operator +(Stack stack, List<Card> other)
+        {
+            Stack newStack;
 
-                cardList.AddRange(stack.Cards);
+            List<Card> cardList = new();
 
-                List<Card> otherCards = other as List<Card>;
-                cardList.AddRange(otherCards);
+            cardList.AddRange(stack.Cards);
 
-                newStack = new Stack(cards: cardList);
-            }
-            else
-            {
-                throw new System.ArgumentException("Object on the right side of '+' must"
-                    + " be of type Stack or Deck or be a list of Card instances");
-            }
+            List<Card> otherCards = other as List<Card>;
+            cardList.AddRange(otherCards);
+
+            newStack = new Stack(cards: cardList);
 
             return newStack;
         }
@@ -92,7 +79,7 @@ namespace CsDealer
         }
 
 
-        public void Remove(int index) // In place of Python's Del
+        public void Remove(int index)
         {
             if (index < 0)
             {
@@ -248,42 +235,44 @@ namespace CsDealer
         }
 
 
-        public void Add(object cards, string end = Const.TOP)
+        public void Add(Card cards, string end = Const.TOP)
         {
             Exception e = new System.ArgumentException("The 'end' parameter must be either"
                 + $" {Const.TOP} or {Const.BOTTOM}");
 
-            if (cards is Card)
+            if (end == Const.TOP)
             {
-                if (end == Const.TOP) // Used == not 'is'
-                {
-                    Cards.Add((Card)cards);
-                }
-                else if (end == Const.BOTTOM)
-                {
-                    Cards.Insert(0, (Card)cards);
-                }
-                else
-                {
-                    throw e;
-                }
+                Cards.Add((Card)cards);
             }
-            else if (cards is List<Card>)
+            else if (end == Const.BOTTOM)
             {
-                List<Card> cardList = cards as List<Card>;
+                Cards.Insert(0, (Card)cards);
+            }
+            else
+            {
+                throw e;
+            }
+        }
 
-                if (end == Const.TOP) // Used == not 'is'
-                {
-                    Cards = cardList.Concat(Cards).ToList();
-                }
-                else if (end == Const.BOTTOM)
-                {
-                    Cards.AddRange(cardList);
-                }
-                else
-                {
-                    throw e;
-                }
+
+        public void Add(List<Card> cards, string end = Const.TOP)
+        {
+            Exception e = new System.ArgumentException("The 'end' parameter must be either"
+                + $" {Const.TOP} or {Const.BOTTOM}");
+
+            List<Card> cardList = cards as List<Card>;
+
+            if (end == Const.TOP)
+            {
+                Cards = cardList.Concat(Cards).ToList();
+            }
+            else if (end == Const.BOTTOM)
+            {
+                Cards.AddRange(cardList);
+            }
+            else
+            {
+                throw e;
             }
         }
 
@@ -370,8 +359,7 @@ namespace CsDealer
         }
 
 
-        public List<int> FindList(List<string> terms, int limit = 0, bool sort = false,
-            Dictionary<string, Dictionary<string, int>> ranks = null)
+        public List<int> FindList(List<string> terms, int limit = 0, bool sort = false, Dictionary<string, Dictionary<string, int>> ranks = null)
         {
             List<Card> cards = Cards;
             List<int> foundIndicies = new();
@@ -428,39 +416,57 @@ namespace CsDealer
         }
 
 
-        public List<Card> Get(object term, int limit = 0, bool sort = false,
-            Dictionary<string, Dictionary<string, int>> ranks = null)
+        public List<Card> Get(int term, bool sort = false, Dictionary<string, Dictionary<string, int>> ranks = null)
         {
             List<Card> cards = Cards;
             List<Card> gotCards = new();
             List<Card> remainingCards = new();
             List<int> indices = new();
 
-            if (term is int)
-            {
-                int index = (int)term;
+            int index = (int)term;
 
-                if (index < 0)
+            if (index < 0)
+            {
+                index += cards.Count;
+            }
+
+            gotCards.Add(cards[index]);
+
+            indices.Add(index);
+
+            for (int i = 0; i < cards.Count; i++)
+            {
+                if (indices.Contains(i))
                 {
-                    index += cards.Count;
+                    continue;
                 }
 
+                remainingCards.Add(cards[i]);
+            }
+
+            Cards = remainingCards;
+
+            if (sort)
+            {
+                gotCards = Tools.SortCards(gotCards, ranks);
+            }
+
+            return gotCards;
+        }
+
+
+        public List<Card> Get(string term, int limit = 0, bool sort = false, Dictionary<string, Dictionary<string, int>> ranks = null)
+        {
+            List<Card> cards = Cards;
+            List<Card> gotCards = new();
+            List<Card> remainingCards = new();
+            List<int> indices;
+
+            indices = Tools.FindCard(cards, term, limit: limit);
+
+            foreach (int index in indices)
+            {
                 gotCards.Add(cards[index]);
-
-                indices.Add(index);
-            }
-            else if (term is string)
-            {
-                indices = Tools.FindCard(cards, (string)term, limit: limit);
-
-                foreach (int index in indices)
-                {
-                    gotCards.Add(cards[index]);
-                }
-            }
-            else
-            {
-                throw new ArgumentException($"The term '{term}' is not of type string or int.");
             }
 
             for (int i = 0; i < cards.Count; i++)
@@ -477,15 +483,14 @@ namespace CsDealer
 
             if (sort)
             {
-                gotCards = Tools.SortCards(gotCards);
+                gotCards = Tools.SortCards(gotCards, ranks);
             }
 
             return gotCards;
         }
 
 
-        public List<int> Find(string term, int limit = 0, bool sort = false,
-            Dictionary<string, Dictionary<string, int>> ranks = null)
+        public List<int> Find(string term, int limit = 0, bool sort = false, Dictionary<string, Dictionary<string, int>> ranks = null)
         {
             List<Card> cards = Cards;
             List<int> foundIndicies = new();
@@ -530,65 +535,87 @@ namespace CsDealer
         }
 
 
-        public List<Card> GetList(List<object> terms, int limit = 0, bool sort = false,
-            Dictionary<string, Dictionary<string, int>> ranks = null)
-        // Has additional functionality that terms list can be mixed with indicies and card descriptions
+        public List<Card> GetList(List<int> terms, bool sort = false, Dictionary<string, Dictionary<string, int>> ranks = null)
         {
             List<Card> cards = Cards;
             List<Card> gotCards = new();
             List<Card> remainingCards = new();
-            List<int> indices = new();
             List<int> allIndices = new();
-            List<int> tempIndices = new();
-            object term;
+            int term;
 
             for (int t = 0; t < terms.Count; t++)
             {
                 term = terms[t];
 
-                if (term is int)
+                int index = term;
+
+                if (index < 0)
                 {
-                    int index = (int)term;
+                    index += cards.Count;
+                }
 
-                    if (index < 0)
-                    {
-                        index += cards.Count;
-                    }
+                if (allIndices.Contains(index))
+                {
+                    continue;
+                }
 
+                gotCards.Add(cards[index]);
+                allIndices.Add(index);
+            }
+
+            for (int i = 0; i < cards.Count; i++)
+            {
+                if (allIndices.Contains(i))
+                {
+                    continue;
+                }
+
+                remainingCards.Add(cards[i]);
+            }
+
+            if (sort)
+            {
+                gotCards = Tools.SortCards(gotCards, ranks);
+            }
+
+            Cards = remainingCards;
+            return gotCards;
+        }
+
+
+        public List<Card> GetList(List<string> terms, int limit = 0, bool sort = false, Dictionary<string, Dictionary<string, int>> ranks = null)
+        {
+            List<Card> cards = Cards;
+            List<Card> gotCards = new();
+            List<Card> remainingCards = new();
+            List<int> indices;
+            List<int> allIndices = new();
+            List<int> tempIndices = new();
+            string term;
+
+            for (int t = 0; t < terms.Count; t++)
+            {
+                term = terms[t];
+
+                indices = Find(term, limit: limit);
+                tempIndices.Clear();
+
+                foreach (int index in indices)
+                {
                     if (allIndices.Contains(index))
                     {
                         continue;
                     }
 
+                    tempIndices.Add(index);
+                }
+
+                foreach (int index in tempIndices)
+                {
                     gotCards.Add(cards[index]);
-                    allIndices.Add(index);
                 }
-                else if (term is string)
-                {
-                    indices = Find((string)term, limit: limit);
-                    tempIndices.Clear();
 
-                    foreach (int index in indices)
-                    {
-                        if (allIndices.Contains(index))
-                        {
-                            continue;
-                        }
-
-                        tempIndices.Add(index);
-                    }
-
-                    foreach (int index in tempIndices)
-                    {
-                        gotCards.Add(cards[index]);
-                    }
-
-                    allIndices.AddRange(tempIndices);
-                }
-                else
-                {
-                    throw new ArgumentException($"The term '{term}' in index {t} is not of type string or int.");
-                }
+                allIndices.AddRange(tempIndices);
             }
 
             for (int i = 0; i < cards.Count; i++)
@@ -752,7 +779,6 @@ namespace CsDealer
 
 
         public Tuple<Stack, Stack> Split(int index = 0, bool halve = true)
-        // Extra parameter solves some issues. Also, method incorporates negative indicies.
         {
             int size = Size;
 

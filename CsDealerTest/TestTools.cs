@@ -2,7 +2,6 @@
 using CsDealer;
 using System.Collections.Generic;
 using System;
-using System.Linq;
 
 namespace CsDealerTest
 {
@@ -288,7 +287,7 @@ namespace CsDealerTest
         [Test]
         public void TestGetListFull()
         {
-            var (left, gotCards) = Tools.GetList(stack.Cards, names.Cast<object>().ToList());
+            var (left, gotCards) = Tools.GetList(stack.Cards, names);
 
             GetListHelper(left, gotCards);
         }
@@ -296,7 +295,7 @@ namespace CsDealerTest
         [Test]
         public void TestGetListAbbrev()
         {
-            List<object> abbrevList = new() { "AS", "2D", "QH", "7C" };
+            List<string> abbrevList = new() { "AS", "2D", "QH", "7C" };
 
             var (left, gotCards) = Tools.GetList(stack.Cards, abbrevList);
 
@@ -306,7 +305,7 @@ namespace CsDealerTest
         [Test]
         public void TestGetListPartialValue()
         {
-            List<object> partialList = new() { "Ace", "2", "Queen", "7" };
+            List<string> partialList = new() { "Ace", "2", "Queen", "7" };
 
             var (left, gotCards) = Tools.GetList(stack.Cards, partialList);
 
@@ -316,7 +315,7 @@ namespace CsDealerTest
         [Test]
         public void TestGetListPartialSuit()
         {
-            List<object> partialList = new() { "Spades", "Diamonds", "Hearts", "Clubs" };
+            List<string> partialList = new() { "Spades", "Diamonds", "Hearts", "Clubs" };
 
             var (left, gotCards) = Tools.GetList(stack.Cards, partialList);
 
@@ -326,7 +325,7 @@ namespace CsDealerTest
         [Test]
         public void TestGetListMixed()
         {
-            List<object> mixedList = new() { "AS", "2 of Diamonds", "Hearts", "7" };
+            List<string> mixedList = new() { "AS", "2 of Diamonds", "Hearts", "7" };
 
             var (left, gotCards) = Tools.GetList(stack.Cards, mixedList);
 

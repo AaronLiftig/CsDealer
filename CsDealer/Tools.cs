@@ -30,8 +30,7 @@ namespace CsDealer
         }
 
 
-        public static bool CheckSorted(List<Card> cards,
-            Dictionary<string, Dictionary<string, int>> ranks = null)
+        public static bool CheckSorted(List<Card> cards, Dictionary<string, Dictionary<string, int>> ranks = null)
         {
             if (ranks == null)
             {
@@ -198,38 +197,55 @@ namespace CsDealer
         }
 
 
-        public static Tuple<List<Card>, List<Card>> GetCard<T>(List<Card> cards, T term,
-            int limit = 0, bool sort = false, Dictionary<string, Dictionary<string, int>> ranks = null)
+        public static Tuple<List<Card>, List<Card>> GetCard(List<Card> cards, int term,
+            bool sort = false, Dictionary<string, Dictionary<string, int>> ranks = null)
         {
             List<Card> gotCards = new();
             List<Card> remainingCards = new();
             List<int> indices = new();
 
-            if (term is int)
-            {
-                int index = (int)(object)term;
+            int index = term;
 
-                if (index < 0)
+            if (index < 0)
+            {
+                index += cards.Count;
+            }
+
+            gotCards.Add(cards[index]);
+
+            indices.Add(index);
+
+            for (int i = 0; i < cards.Count; i++)
+            {
+                if (indices.Contains(i))
                 {
-                    index += cards.Count;
+                    continue;
                 }
 
+                remainingCards.Add(cards[i]);
+            }
+
+            if (sort)
+            {
+                gotCards = SortCards(gotCards, ranks: ranks);
+            }
+
+            return Tuple.Create(remainingCards, gotCards);
+        }
+
+
+        public static Tuple<List<Card>, List<Card>> GetCard(List<Card> cards, string term,
+            int limit = 0, bool sort = false, Dictionary<string, Dictionary<string, int>> ranks = null)
+        {
+            List<Card> gotCards = new();
+            List<Card> remainingCards = new();
+            List<int> indices;
+
+            indices = FindCard(cards, term, limit: limit);
+
+            foreach (int index in indices)
+            {
                 gotCards.Add(cards[index]);
-
-                indices.Add(index);
-            }
-            else if (term is string)
-            {
-                indices = FindCard(cards, (string)(object)term, limit: limit);
-
-                foreach (int index in indices)
-                {
-                    gotCards.Add(cards[index]);
-                }
-            }
-            else
-            {
-                throw new ArgumentException($"The term '{term}' is not of type string or int.");
             }
 
             for (int i = 0; i < cards.Count; i++)
@@ -251,63 +267,83 @@ namespace CsDealer
         }
 
 
-        public static Tuple<List<Card>, List<Card>> GetList(List<Card> cards, List<object> terms,
+        public static Tuple<List<Card>, List<Card>> GetList(List<Card> cards, List<int> terms,
+            bool sort = false, Dictionary<string, Dictionary<string, int>> ranks = null)
+        {
+            List<Card> gotCards = new();
+            List<Card> remainingCards = new();
+            List<int> allIndices = new();
+            int index;
+
+            for (int t = 0; t < terms.Count; t++)
+            {
+                index = terms[t];
+
+                if (index < 0)
+                {
+                    index += cards.Count;
+                }
+
+                if (allIndices.Contains(index))
+                {
+                    continue;
+                }
+
+                gotCards.Add(cards[index]);
+                allIndices.Add(index);
+            }
+
+            for (int i = 0; i < cards.Count; i++)
+            {
+                if (allIndices.Contains(i))
+                {
+                    continue;
+                }
+
+                remainingCards.Add(cards[i]);
+            }
+
+            if (sort)
+            {
+                gotCards = SortCards(gotCards, ranks);
+            }
+
+            return Tuple.Create(remainingCards, gotCards);
+        }
+
+
+        public static Tuple<List<Card>, List<Card>> GetList(List<Card> cards, List<string> terms,
             int limit = 0, bool sort = false, Dictionary<string, Dictionary<string, int>> ranks = null)
-        // Has additional functionality that terms list can be mixed with indicies and card descriptions
         {
             List<Card> gotCards = new();
             List<Card> remainingCards = new();
             List<int> allIndices = new();
             List<int> tempIndices = new();
-            object term;
+            string term;
 
             for (int t = 0; t < terms.Count; t++)
             {
                 term = terms[t];
 
-                if (term is int)
+                List<int> indices = FindCard(cards, term, limit: limit);
+                tempIndices.Clear();
+
+                foreach (int index in indices)
                 {
-                    int index = (int)term;
-
-                    if (index < 0)
-                    {
-                        index += cards.Count;
-                    }
-
                     if (allIndices.Contains(index))
                     {
                         continue;
                     }
 
+                    tempIndices.Add(index);
+                }
+
+                foreach (int index in tempIndices)
+                {
                     gotCards.Add(cards[index]);
-                    allIndices.Add(index);
                 }
-                else if (term is string)
-                {
-                    List<int> indices = FindCard(cards, (string)(object)term, limit: limit);
-                    tempIndices.Clear();
 
-                    foreach (int index in indices)
-                    {
-                        if (allIndices.Contains(index))
-                        {
-                            continue;
-                        }
-
-                        tempIndices.Add(index);
-                    }
-
-                    foreach (int index in tempIndices)
-                    {
-                        gotCards.Add(cards[index]);
-                    }
-
-                    allIndices.AddRange(tempIndices);
-                }
-                else
-                {
-                    throw new ArgumentException($"The term '{term}' in index {t} is not of type string or int.");
-                }
+                allIndices.AddRange(tempIndices);
             }
 
             for (int i = 0; i < cards.Count; i++)

@@ -43,47 +43,35 @@ namespace CsDealer
         }
 
 
-        public static Deck operator +(Deck deck, object other)
+        public static Deck operator +(Deck deck, Stack other)
         {
             Deck newDeck;
 
-            if (other.GetType() == typeof(Deck))
-            {
-                List<Card> cardList = new();
+            List<Card> cardList = new();
 
-                cardList.AddRange(deck.Cards);
+            cardList.AddRange(deck.Cards);
 
-                cardList.AddRange(((Deck)other).Cards);
+            cardList.AddRange(other.Cards);
 
-                newDeck = new Deck(cards: cardList, build: false);
-            }
-            else if (other.GetType() == typeof(Stack))
-            {
-                List<Card> cardList = new();
+            newDeck = new Deck(cards: cardList, build: false);
+            
+            return newDeck;
+        }
 
-                cardList.AddRange(deck.Cards);
 
-                cardList.AddRange(((Stack)other).Cards);
+        public static Deck operator +(Deck deck, List<Card> other)
+        {
+            Deck newDeck;
 
-                newDeck = new Deck(cards: cardList, build: false);
-            }
-            else if (other is List<Card>)
-            {
-                List<Card> cardList = new();
+            List<Card> cardList = new();
 
-                cardList.AddRange(deck.Cards);
+            cardList.AddRange(deck.Cards);
 
-                List<Card> otherCards = other as List<Card>;
-                cardList.AddRange(otherCards);
+            List<Card> otherCards = other;
+            cardList.AddRange(otherCards);
 
-                newDeck = new Deck(cards: cardList, build: false);
-            }
-            else
-            {
-                throw new System.ArgumentException("Object on the right side of '+' must be of"
-                    + " type Stack or Deck or be a list of Card instances");
-            }
-
+            newDeck = new Deck(cards: cardList, build: false);
+           
             return newDeck;
         }
 
