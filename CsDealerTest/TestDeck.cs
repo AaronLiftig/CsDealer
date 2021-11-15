@@ -44,5 +44,23 @@ namespace CsDealerTest
                 Assert.AreEqual(dealtCards.Cards[i].name, cardNames[i]);
             }
         }
+
+        [Test]
+        public void TestDealRebuild()
+        {
+            deck.rebuild = true;
+
+            Stack _ = deck.Deal(53);
+
+            Assert.AreEqual(deck.Count, 51);
+        }
+
+        [Test]
+        public void TestRepr()
+        {
+            string result = emptyDeck.Repr();
+
+            Assert.AreEqual(result, "Deck(cards=[])");
+        }
     }
 }
