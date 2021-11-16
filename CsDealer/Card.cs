@@ -98,7 +98,7 @@ namespace CsDealer
         }
 
 
-        public string Str()
+        public override string ToString()
         {
             return $"{name}";
         }

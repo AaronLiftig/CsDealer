@@ -389,7 +389,7 @@ namespace CsDealer
             for (int i = 0; i < cardData.Count; i++)
             {
                 string[] card = cardData[i].Split(" ");
-                cards[i] = new Card(card[0], card[1]);
+                cards.Add(new Card(card[0], card[1]));
             }
 
             return cards;
@@ -428,11 +428,6 @@ namespace CsDealer
             for (int i = 0; i < cards.Count; i++)
             {
                 cardReprs = $"{cards[i].value} {cards[i].suit}";
-
-                if (i != cards.Count - 1)
-                {
-                    cardReprs += Environment.NewLine;
-                }
 
                 cardReprsList.Add(cardReprs);
             }

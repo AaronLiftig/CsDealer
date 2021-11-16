@@ -741,6 +741,12 @@ namespace CsDealer
         }
 
 
+        public void SetCards(List<Card> cards)
+        {
+            Cards = cards;
+        }
+
+
         private static readonly Random random = new();
 
         public void Shuffle(int times = 1)

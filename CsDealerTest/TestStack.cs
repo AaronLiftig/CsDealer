@@ -1,6 +1,8 @@
 ﻿using NUnit.Framework;
 using CsDealer;
 using System.Collections.Generic;
+using System.Linq;
+using System;
 
 namespace CsDealerTest
 {
@@ -411,11 +413,10 @@ namespace CsDealerTest
         }
 
         [Test]
-        [Ignore("need to download txt file")]
         public void TestOpenCards()
         {
-            List<int> indices = new() { 1, 2, 3, 4 };
-            stack.OpenCards("cards.txt");
+            List<int> indices = new() { 0, 1, 2, 3 };
+            stack.OpenCards("CardsSave.txt");
 
             FindListHelper(stack, indices);
         }
@@ -436,6 +437,94 @@ namespace CsDealerTest
             Assert.AreEqual(result, "Stack(cards=[])");
         }
 
+        [Test]
+        public void TestReverse()
+        {
+            Stack cardsReversedX = new(cards: smallStack.Cards);
+            cardsReversedX.Cards.Reverse();
 
+            smallStack.Reverse();
+            Stack cardsReversedY = new(cards: smallStack.Cards);
+
+            Assert.AreEqual(cardsReversedX, cardsReversedY);
+        }
+
+        [Test]
+        public void TestSaveCards()
+        {
+            List<string> names = new() { "Ace Spades", "2 Diamonds", "Queen Hearts", "7 Clubs" };
+
+            smallStack.SaveCards("CardsSave.txt");
+
+            using System.IO.StreamReader file = new("CardsSave.txt");
+            string line;
+            int i = 0;
+
+            while ((line = file.ReadLine()) != null)
+            {
+                Assert.AreEqual(line, names[i]);
+                i++;
+            }
+        }
+
+        [Test]
+        public void TestSetCards()
+        {
+            stack.SetCards(cards);
+
+            Assert.AreEqual(stack.Cards.ToList(), cards);
+        }
+
+        [Test]
+        public void TestSetItem()
+        {
+            fullStack.Cards[0] = testAceSpades;
+
+            Assert.AreEqual(fullStack.Cards[0], testAceSpades);
+        }
+
+        [Test]
+        public void TestShuffle()
+        {
+            List<Card> cardsBefore = fullStack.Cards.ToList();
+            fullStack.Shuffle();
+            List<Card> cardsAfter = fullStack.Cards.ToList();
+
+            Assert.AreNotEqual(cardsBefore, cardsAfter);
+        }
+
+        [Test]
+        public void TestSize()
+        {
+            Assert.AreEqual(fullStack.Size, 52);
+        }
+
+        [Test]
+        public void TestSort()
+        {
+            List<Card> ordered = new() { testTwoDiamonds,  testSevenClubs, testQueenHearts, testAceSpades };
+
+            smallStack.Sort();
+
+            Assert.AreEqual(smallStack.Cards.ToList(), ordered);
+        }
+
+        [Test]
+        public void TestSplit()
+        {
+            var (s1, s2) = smallStack.Split();
+
+            Assert.AreEqual(s1.Cards.ToList(), smallStack.Cards.GetRange(0, 2));
+            Assert.AreEqual(s2.Cards.ToList(), smallStack.Cards.GetRange(2, smallStack.Count - 2));
+        }
+
+        [Test]
+        public void TestToString()
+        {
+            string cards = "Ace of Spades\r\n2 of Diamonds\r\nQueen of Hearts\r\n7 of Clubs";
+            string result = smallStack.ToString();
+
+            Assert.AreEqual(result, cards);
+        }
     }
 }

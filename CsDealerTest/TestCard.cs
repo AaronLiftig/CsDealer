@@ -202,5 +202,13 @@ namespace CsDealerTest
             Assert.IsTrue(result1);
             Assert.IsFalse(result2);
         }
+
+        [Test]
+        public void TestToString()
+        {
+            string result = testTwoDiamonds.ToString();
+
+            Assert.AreEqual(result, "2 of Diamonds");
+        }
     }
 }
