@@ -1,6 +1,7 @@
 # CsDealer
 
 ## C# version of the PyDealer Python playing card library
+### Built as a .NET Class Library using Visual Studio.
 
 Documentation will be coming in the future, but for now the Python documentation can be used as a reference, seen here: https://pydealer.readthedocs.io/en/latest/code.html
 
