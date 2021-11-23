@@ -425,7 +425,7 @@ namespace CsDealer
             List<Card> remainingCards = new();
             List<int> indices = new();
 
-            int index = (int)term;
+            int index = term;
 
             if (index < 0)
             {
@@ -543,13 +543,11 @@ namespace CsDealer
             List<Card> gotCards = new();
             List<Card> remainingCards = new();
             List<int> allIndices = new();
-            int term;
+            int index;
 
             for (int t = 0; t < terms.Count; t++)
             {
-                term = terms[t];
-
-                int index = term;
+                index = terms[t];
 
                 if (index < 0)
                 {
