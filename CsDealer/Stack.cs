@@ -10,7 +10,8 @@ namespace CsDealer
         public List<Card> _cards;
         public Dictionary<string, Dictionary<string, int>> ranks;
 
-        public Stack(List<Card> cards = null, bool sort = false, Dictionary<string, Dictionary<string, int>> ranks = null)
+        public Stack(List<Card> cards = null, bool sort = false, 
+            Dictionary<string, Dictionary<string, int>> ranks = null)
         {
             if (cards == null)
             {
@@ -40,7 +41,7 @@ namespace CsDealer
 
             cardList.AddRange(stack.Cards);
 
-            cardList.AddRange(((Stack)other).Cards);
+            cardList.AddRange(other.Cards);
 
             newStack = new Stack(cards: cardList);
 
@@ -56,7 +57,7 @@ namespace CsDealer
 
             cardList.AddRange(stack.Cards);
 
-            List<Card> otherCards = other as List<Card>;
+            List<Card> otherCards = other;
             cardList.AddRange(otherCards);
 
             newStack = new Stack(cards: cardList);
@@ -237,16 +238,16 @@ namespace CsDealer
 
         public void Add(Card cards, string end = Const.TOP)
         {
-            Exception e = new System.ArgumentException("The 'end' parameter must be either"
+            Exception e = new ArgumentException("The 'end' parameter must be either"
                 + $" {Const.TOP} or {Const.BOTTOM}");
 
             if (end == Const.TOP)
             {
-                Cards.Add((Card)cards);
+                Cards.Add(cards);
             }
             else if (end == Const.BOTTOM)
             {
-                Cards.Insert(0, (Card)cards);
+                Cards.Insert(0, cards);
             }
             else
             {
@@ -257,10 +258,10 @@ namespace CsDealer
 
         public void Add(List<Card> cards, string end = Const.TOP)
         {
-            Exception e = new System.ArgumentException("The 'end' parameter must be either"
+            Exception e = new ArgumentException("The 'end' parameter must be either"
                 + $" {Const.TOP} or {Const.BOTTOM}");
 
-            List<Card> cardList = cards as List<Card>;
+            List<Card> cardList = cards;
 
             if (end == Const.TOP)
             {
@@ -294,7 +295,7 @@ namespace CsDealer
         {
             if (num <= 0)
             {
-                throw new System.ArgumentException("The 'num' parameter must be >= 1.");
+                throw new ArgumentException("The 'num' parameter must be >= 1.");
             }
 
             Card[] dealtCards;
@@ -330,7 +331,7 @@ namespace CsDealer
 
                         dealtCards[n] = card;
                     }
-                    catch (System.ArgumentOutOfRangeException)
+                    catch (ArgumentOutOfRangeException)
                     {
                         break;
                     }
@@ -361,7 +362,8 @@ namespace CsDealer
         }
 
 
-        public List<int> FindList(List<string> terms, int limit = 0, bool sort = false, Dictionary<string, Dictionary<string, int>> ranks = null)
+        public List<int> FindList(List<string> terms, int limit = 0, bool sort = false, 
+            Dictionary<string, Dictionary<string, int>> ranks = null)
         {
             List<Card> cards = Cards;
             List<int> foundIndicies = new();
@@ -418,7 +420,8 @@ namespace CsDealer
         }
 
 
-        public List<Card> Get(int term, bool sort = false, Dictionary<string, Dictionary<string, int>> ranks = null)
+        public List<Card> Get(int term, bool sort = false, 
+            Dictionary<string, Dictionary<string, int>> ranks = null)
         {
             List<Card> cards = Cards;
             List<Card> gotCards = new();
@@ -457,7 +460,8 @@ namespace CsDealer
         }
 
 
-        public List<Card> Get(string term, int limit = 0, bool sort = false, Dictionary<string, Dictionary<string, int>> ranks = null)
+        public List<Card> Get(string term, int limit = 0, bool sort = false, 
+            Dictionary<string, Dictionary<string, int>> ranks = null)
         {
             List<Card> cards = Cards;
             List<Card> gotCards = new();
@@ -492,7 +496,8 @@ namespace CsDealer
         }
 
 
-        public List<int> Find(string term, int limit = 0, bool sort = false, Dictionary<string, Dictionary<string, int>> ranks = null)
+        public List<int> Find(string term, int limit = 0, bool sort = false, 
+            Dictionary<string, Dictionary<string, int>> ranks = null)
         {
             List<Card> cards = Cards;
             List<int> foundIndicies = new();
@@ -537,7 +542,8 @@ namespace CsDealer
         }
 
 
-        public List<Card> GetList(List<int> terms, bool sort = false, Dictionary<string, Dictionary<string, int>> ranks = null)
+        public List<Card> GetList(List<int> terms, bool sort = false, 
+            Dictionary<string, Dictionary<string, int>> ranks = null)
         {
             List<Card> cards = Cards;
             List<Card> gotCards = new();
@@ -583,7 +589,8 @@ namespace CsDealer
         }
 
 
-        public List<Card> GetList(List<string> terms, int limit = 0, bool sort = false, Dictionary<string, Dictionary<string, int>> ranks = null)
+        public List<Card> GetList(List<string> terms, int limit = 0, bool sort = false, 
+            Dictionary<string, Dictionary<string, int>> ranks = null)
         {
             List<Card> cards = Cards;
             List<Card> gotCards = new();
@@ -648,7 +655,7 @@ namespace CsDealer
             }
             else if (index < 0 || index >= size)
             {
-                throw new System.ArgumentException("Parameter 'index' must be between"
+                throw new ArgumentException("Parameter 'index' must be between"
                     + $" {-size} and {size - 1}, inclusive.");
             }
 
@@ -682,7 +689,7 @@ namespace CsDealer
             }
             else if (index < 0 || index >= size)
             {
-                throw new System.ArgumentException("Parameter 'index' must be between"
+                throw new ArgumentException("Parameter 'index' must be between"
                     + $" {-size} and {size - 1}, inclusive.");
             }
 
@@ -796,7 +803,7 @@ namespace CsDealer
                 }
                 else if (index < 0 || index >= size)
                 {
-                    throw new System.ArgumentException("Parameter 'index' must be between"
+                    throw new ArgumentException("Parameter 'index' must be between"
                         + $" {-size} and {size - 1}, inclusive.");
                 }
 

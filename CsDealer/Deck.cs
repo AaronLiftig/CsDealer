@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -121,7 +122,7 @@ namespace CsDealer
         {
             if (num <= 0)
             {
-                throw new System.ArgumentException("The 'num' parameter must be >= 1.");
+                throw new ArgumentException("The 'num' parameter must be >= 1.");
             }
 
             Card[] dealtCards;
@@ -170,7 +171,7 @@ namespace CsDealer
                     dealtCards[n] = card;
                     num -= 1;
                 }
-                catch (System.ArgumentOutOfRangeException)
+                catch (ArgumentOutOfRangeException)
                 {
                     if (Size == 0)
                     {

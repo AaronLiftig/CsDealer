@@ -30,7 +30,8 @@ namespace CsDealer
         }
 
 
-        public static bool CheckSorted(List<Card> cards, Dictionary<string, Dictionary<string, int>> ranks = null)
+        public static bool CheckSorted(List<Card> cards, 
+            Dictionary<string, Dictionary<string, int>> ranks = null)
         {
             if (ranks == null)
             {
