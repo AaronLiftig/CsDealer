@@ -5,8 +5,8 @@ This is the CsDealer API documentation. It contains the documentation extracted 
 Contents:
 
 -   API Documentation
-    -   [card  Module](./card.md)
-    -   [stack  Module](./stack.md)
-    -   [deck  Module](./deck.md)
-    -   [tools  Module](./tools.md)
-    -   [const  Module](./const.md)
+    -   [card  Module](./Card.md)
+    -   [stack  Module](./Stack.md)
+    -   [deck  Module](./Deck.md)
+    -   [tools  Module](./Tools.md)
+    -   [const  Module](./Const.md)
