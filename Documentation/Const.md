@@ -4,16 +4,17 @@
 
 These are the few constants that are used by the CsDealer package. The poker ranks, and big two ranks could be used for sorting, or by anyone making a game that relies on those ranks. CsDealer references **DEFAULT_RANKS** for sorting order, and ordering of newly instantiated decks by default.
 
-### List\<string> SUITS 
+### SUITS (_List\<string>_)
 
 { "Diamonds", "Clubs", "Hearts", "Spades" }
 
-### List\<string> VALUES
+### VALUES (_List\<string>_)
 
-{"2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace"}
+{ "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King", "Ace" }
 
-### public static readonly Dictionary<string, Dictionary<string, int>> BIG2_RANKS =
+### BIG2_RANKS (_Dictionary<string, Dictionary<string, int>>_)
 
+<pre>
 {
 {"values",
 {
@@ -42,9 +43,11 @@ These are the few constants that are used by the CsDealer package. The poker ran
 }
 }
 }
+</pre>
 
-### public static readonly Dictionary<string, Dictionary<string, int>> DEFAULT_RANKS
+### DEFAULT_RANKS (_Dictionary<string, Dictionary<string, int>>_)
 
+<pre>
 {
 {"values", {
 {"Ace", 13},
@@ -70,9 +73,11 @@ These are the few constants that are used by the CsDealer package. The poker ran
 {"Diamonds", 1}
 }
 }
+</pre>
 
-### Dictionary<string, Dictionary<string, int>> POKER_RANKS 
+### POKER_RANKS (_Dictionary<string, Dictionary<string, int>>_)
 
+<pre>
 {"values",
 {
 {"Ace", 13},
@@ -91,11 +96,12 @@ These are the few constants that are used by the CsDealer package. The poker ran
 {"Joker", 0}
 }
 }
+</pre>
 
-### string TOP 
+### TOP (_string_)
 
 "top"
 
-### string BOTTOM
+### BOTTOM (_string_)
 
 "bottom"
