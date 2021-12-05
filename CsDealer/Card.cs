@@ -104,11 +104,24 @@ namespace CsDealer
         }
 
 
-        public override bool Equals(object card)
+        public override bool Equals(object other)
         {
-            if (card is Card)
+            Dictionary<string, Dictionary<string, int>> ranks = Const.DEFAULT_RANKS;
+
+            if (other is Card)
             {
-                return value == ((Card)card).value && suit == ((Card)card).suit;
+                Card _other = (Card)other;
+
+                if (ranks.ContainsKey("suits"))
+                {
+                    return ranks["values"][value] == ranks["values"][_other.value]
+                        &&
+                        ranks["suits"][suit] == ranks["suits"][_other.suit];
+                }
+                else
+                {
+                    return ranks["values"][value] == ranks["values"][_other.value];
+                }
             }
             else
             {
@@ -117,13 +130,8 @@ namespace CsDealer
         }
 
 
-        public bool Equals(object other, Dictionary<string, Dictionary<string, int>> ranks = null)
+        public bool Equals(object other, Dictionary<string, Dictionary<string, int>> ranks)
         {
-            if (ranks == null)
-            {
-                ranks = Const.DEFAULT_RANKS;
-            }
-
             if (other is Card)
             {
                 Card _other = (Card)other;
