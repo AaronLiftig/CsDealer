@@ -4,7 +4,7 @@
 
 This module contains the **Deck** class. Each **Deck** instance contains a full, 52 card French deck of playing cards upon instantiation. The **Deck** class is a subclass of the **Stack** class, with a few extra/differing methods.
 
-## class CsDealer.Deck(List<Card> cards = null, bool jokers = false, int numJokers = 0, bool  build  =  true, bool  rebuild  =  false, bool  reshuffle  =  false, Dictionary<string, Dictionary<string, int>> ranks  =  null)
+## class CsDealer.Deck(List\<Card> cards = null, bool jokers = false, int numJokers = 0, bool  build  =  true, bool  rebuild  =  false, bool  reshuffle  =  false, Dictionary\<string, Dictionary\<string, int>> ranks  =  null)
 
 The Deck class, representing the deck that the cards will be in. It is a sublcass of Stack, sharing all of the same methods, in addition to a couple of others you would expect a deck class to have.
 
