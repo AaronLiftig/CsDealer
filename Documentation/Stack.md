@@ -22,7 +22,7 @@ Adds the given list of  **Card**  instances to the top of the stack.
 -  **cards**  – The cards to add to the  **Stack**. Can be a single  **Card**  instance, or a  **list**  of cards.
 -  **end**  (_string_) – The end of the  **Stack**  to add the cards to. Can be  **TOP**  (“top”) or  **BOTTOM**  (“bottom”).
 
-### cards
+### Cards
 
 The cards property.
 
