@@ -5,4 +5,4 @@
 
 This library tends to use identical method names as Pydealer except when overriding a built-in C# method (e.g., str => ToString). Also uses C# naming conventions, so PascalCase for methods and camelCase for variables (no snake_case).
 
-Documentation can be found [here](./Documentation/CsDealer.md).
+Documentation can be found [here](./Documentation/README.md).
