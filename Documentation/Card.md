@@ -1,6 +1,6 @@
 # Card Module
 
-[Source](https://github.com/AaronL87/CsDealer/blob/master/CsDealer/Card.cs)
+[Source](../CsDealer/Card.cs)
 
 This module contains the  **Card**  class. Each  **Card**  instance represents a single playing card of a given value and suit.
 
@@ -9,8 +9,8 @@ This module contains the  **Card**  class. Each  **Card**  instance represents a
 The Card class, each instance representing a single playing card.
 
 **Parameters:**
-- **value**  (_str_) – The card value.
-- **suit**  (_str_) – The card suit.
+- **value**  (_string_) – The card value.
+- **suit**  (_string_) – The card suit.
 
 ### GetHashCode()
 
