@@ -29,7 +29,7 @@ Builds a standard 52 card French deck of Card instances.
 - **numJokers**  (_int_) – The number of jokers to include.
 
 **Returns:**
-- a list of cards, which are removed from the deck.
+- _List\<Card>_ - A list of cards that were removed from the deck.
 
 ### Deal(int num = 1, bool rebuild = false, bool shuffle = false, string end = Const.TOP)
 
@@ -40,4 +40,14 @@ Builds a standard 52 card French deck of Card instances.
 - **end**  (_string_) – The end of the  Stack  to add the cards to. Can be  TOP  (“top”) or  BOTTOM  (“bottom”).
 
 **Returns:**
-- A given number of cards from the deck.
+- _Stack_ - A given number of cards from the deck.
+
+### ConvertToDeck(Stack stack)
+
+Convert a Stack to a Deck.
+
+**Parameters:**
+- **stack** (_Stack_) – The Stack to convert.
+
+**Returns:**
+- _Stack_ - A new Deck instance containing the cards from the given Stack instance.
