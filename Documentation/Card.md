@@ -2,42 +2,33 @@
 
 [Source](https://github.com/AaronL87/CsDealer/blob/master/CsDealer/Card.cs)
 
-This module contains the  **Card**  class. Each  **Card**  instance represents a single playing card, of a given value and suit.
+This module contains the  **Card**  class. Each  **Card**  instance represents a single playing card of a given value and suit.
 
 ## class CsDealer.Card(string value, string suit)
 
 The Card class, each instance representing a single playing card.
 
 **Parameters:**
-- **value**  (_string_) – The card value.
-- **suit**  (_string_) – The card suit.
+- **value**  (_str_) – The card value.
+- **suit**  (_str_) – The card suit.
 
 ### GetHashCode()
 
 Returns integer representation of a card.
-
-**Parameters:**
-- No Parameters
 
 **Returns:**
 - int
 
 ### Repr()
 
-Returns printable representation of a card of the form "Card(value={value}, suit={suit})". Equivalent to Python's \_\_repr\_\_ method.
-
-**Parameters:**
-- No Parameters
+Returns printable representation of a card in the form "Card(value={value}, suit={suit})". Equivalent to Python's \_\_repr\_\_ method.
 
 **Returns:**
 - string
 
 ### ToString()
 
-Returns string representation of a card of the form "{cardName}". Equivalent to Python's __repr__ method.
-
-**Parameters:**
-- No Parameters
+Returns string representation of a card in the form "{cardName}". Equivalent to Python's \_\_str\_\_ method.
 
 **Returns:**
 - string
@@ -121,7 +112,7 @@ Constructs an abbreviation for the card, using the given value, and suit.
 - bool
 
 ### CardName(string value, string suit)
-Constructs a name for the card, using the given value, and suit.
+Constructs a name for the card, using the given value and suit.
 
 **Parameters:**
 - value (_string_)
