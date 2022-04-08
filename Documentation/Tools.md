@@ -1,7 +1,7 @@
 
 # Tools  Module
 
-[Source](https://github.com/AaronL87/CsDealer/blob/master/CsDealer/Tools.cs)
+[Source](../CsDealer/Tools.cs)
 
 The tools module contains functions for working with sequences of cards, some of which are used by the classes in the CsDealer package, such as the functions  buildCards,  sortCards, and  checkTerm for example.
 
