@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace CsDealer
 {
-    public class Tools // Utility Functions
+    public static class Tools // Utility Functions
     {
         public static List<Card> BuildCards(bool jokers = false, int numJokers = 0)
         {
