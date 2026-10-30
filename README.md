@@ -141,6 +141,12 @@ dotnet test tests/CsDealer.Tests
 dotnet run --project samples/CsDealer.Demo
 ```
 
+On Windows the tests run twice: on .NET 8 and on .NET Framework 4.8, which exercises the `netstandard2.0` build. Line and branch coverage are 100% on both. To produce a Cobertura coverage report under `tests/CsDealer.Tests/TestResults`:
+
+```bash
+dotnet test tests/CsDealer.Tests --collect:"XPlat Code Coverage"
+```
+
 ## Upgrading from 1.x
 
 2.0 is a cleanup of the original port, and its API is not source-compatible:

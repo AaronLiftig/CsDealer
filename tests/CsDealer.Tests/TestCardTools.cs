@@ -15,7 +15,7 @@ namespace CsDealer.Tests
             Assert.That(cards, Has.Count.EqualTo(53));
             Assert.That(cards[0], Is.EqualTo(Card.Joker));
             Assert.That(cards[1].Abbrev, Is.EqualTo("2D"));
-            Assert.That(cards[^1].Abbrev, Is.EqualTo("AS"));
+            Assert.That(cards[cards.Count - 1].Abbrev, Is.EqualTo("AS"));
             Assert.That(CardTools.IsSorted(cards), Is.True);
             Assert.Throws<ArgumentOutOfRangeException>(() => CardTools.BuildCards(-1));
         }

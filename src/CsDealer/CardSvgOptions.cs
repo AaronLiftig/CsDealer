@@ -1,10 +1,21 @@
+using System;
+
 namespace CsDealer
 {
     /// <summary>Appearance settings for <see cref="CardSvg"/>. Colors are any CSS color.</summary>
     public sealed class CardSvgOptions
     {
+        private double _width = 250;
+
         /// <summary>Rendered width in pixels; the height is always 1.4× (poker-size 2.5" × 3.5").</summary>
-        public double Width { get; set; } = 250;
+        /// <exception cref="ArgumentOutOfRangeException">The value is not a positive, finite number.</exception>
+        public double Width
+        {
+            get => _width;
+            set => _width = value > 0 && !double.IsInfinity(value)
+                ? value
+                : throw new ArgumentOutOfRangeException(nameof(value), value, "Width must be a positive, finite number.");
+        }
 
         /// <summary>Use a four-color deck: blue diamonds and green clubs.</summary>
         public bool FourColor { get; set; }

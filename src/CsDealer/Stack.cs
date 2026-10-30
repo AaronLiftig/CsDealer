@@ -36,8 +36,9 @@ namespace CsDealer
             }
         }
 
-        // Takes ownership of the list without copying.
-        internal Stack(List<Card> cards, Ranks ranks)
+        // Takes ownership of the list without copying. The (Ranks, List) parameter order keeps it from
+        // ever being chosen over the public, copying constructor by overload resolution.
+        internal Stack(Ranks ranks, List<Card> cards)
         {
             _cards = cards;
             _ranks = ranks;
@@ -160,7 +161,7 @@ namespace CsDealer
 
             var dealt = new List<Card>(Math.Min(count, _cards.Count));
             TakeInto(dealt, Math.Min(count, _cards.Count), end);
-            return new Stack(dealt, _ranks);
+            return new Stack(_ranks, dealt);
         }
 
         /// <summary>Removes <paramref name="count"/> cards from an end and appends them to <paramref name="dealt"/>.</summary>
@@ -312,7 +313,7 @@ namespace CsDealer
                 throw new ArgumentOutOfRangeException(nameof(index), index, $"Must be between 0 and {_cards.Count}.");
             }
 
-            return (new Stack(_cards.GetRange(0, at), _ranks), new Stack(_cards.GetRange(at, _cards.Count - at), _ranks));
+            return (new Stack(_ranks, _cards.GetRange(0, at)), new Stack(_ranks, _cards.GetRange(at, _cards.Count - at)));
         }
 
         /// <summary>Whether both stacks hold exactly the same cards, in any order.</summary>

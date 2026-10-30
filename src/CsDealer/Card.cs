@@ -25,6 +25,10 @@ namespace CsDealer
         private static readonly string[] ValueAbbrevs =
             { "", "", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A" };
 
+        // Spelled-out names accepted by Parse ("Two" … "Ace"); kept as strings so parsing never calls Enum.ToString.
+        private static readonly string[] ValueWords =
+            { "", "", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King", "Ace" };
+
         private static readonly string[] SuitNames = { "Diamonds", "Clubs", "Hearts", "Spades" };
 
         // Names and abbreviations are precomputed so the properties never allocate.
@@ -130,7 +134,7 @@ namespace CsDealer
         public override bool Equals(object? obj) => obj is Card other && Equals(other);
 
         /// <summary>Whether the two cards rank equally under <paramref name="ranks"/>.</summary>
-        public bool Equals(Card other, Ranks ranks) => ranks.Compare(this, other) == 0;
+        public bool Equals(Card other, Ranks ranks) => NotNull(ranks).Compare(this, other) == 0;
 
         /// <inheritdoc/>
         public override int GetHashCode() => Key;
@@ -139,7 +143,9 @@ namespace CsDealer
         public int CompareTo(Card other) => Ranks.Default.Compare(this, other);
 
         /// <summary>Compares using the given ranks.</summary>
-        public int CompareTo(Card other, Ranks ranks) => ranks.Compare(this, other);
+        public int CompareTo(Card other, Ranks ranks) => NotNull(ranks).Compare(this, other);
+
+        private static Ranks NotNull(Ranks ranks) => ranks ?? throw new ArgumentNullException(nameof(ranks));
 
         int IComparable.CompareTo(object? obj) => obj switch
         {
@@ -261,7 +267,7 @@ namespace CsDealer
             {
                 if (s.Equals(ValueNames[v], StringComparison.OrdinalIgnoreCase)
                     || s.Equals(ValueAbbrevs[v], StringComparison.OrdinalIgnoreCase)
-                    || s.Equals(((CardValue)v).ToString(), StringComparison.OrdinalIgnoreCase))
+                    || s.Equals(ValueWords[v], StringComparison.OrdinalIgnoreCase))
                 {
                     value = (CardValue)v;
                     return true;

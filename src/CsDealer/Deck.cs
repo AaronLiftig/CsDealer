@@ -18,7 +18,7 @@ namespace CsDealer
         /// <param name="reshuffle">Shuffle each rebuilt deck.</param>
         /// <param name="ranks">Default ranking; <see cref="CsDealer.Ranks.Default"/> if omitted.</param>
         public Deck(int jokers = 0, bool build = true, bool rebuild = false, bool reshuffle = false, Ranks? ranks = null)
-            : base(new List<Card>(), ranks ?? Ranks.Default)
+            : base(ranks ?? Ranks.Default, new List<Card>())
         {
             Jokers = jokers;
             Rebuild = rebuild;
@@ -32,7 +32,7 @@ namespace CsDealer
 
         /// <summary>Creates a deck holding a copy of <paramref name="cards"/>. Nothing is built.</summary>
         public Deck(IEnumerable<Card> cards, int jokers = 0, bool rebuild = false, bool reshuffle = false, Ranks? ranks = null)
-            : base(new List<Card>(cards ?? throw new ArgumentNullException(nameof(cards))), ranks ?? Ranks.Default)
+            : base(ranks ?? Ranks.Default, new List<Card>(cards ?? throw new ArgumentNullException(nameof(cards))))
         {
             Jokers = jokers;
             Rebuild = rebuild;
@@ -97,7 +97,7 @@ namespace CsDealer
                 TakeInto(dealt, Math.Min(count - dealt.Count, Count), end);
             }
 
-            return new Stack(dealt, Ranks);
+            return new Stack(Ranks, dealt);
         }
     }
 }

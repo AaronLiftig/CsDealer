@@ -6,14 +6,27 @@ on:
   pull_request:
 
 jobs:
-  build:
+  test:
+    # Windows also runs the tests on .NET Framework 4.8, covering the netstandard2.0 build.
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - run: dotnet test tests/CsDealer.Tests -c Release --collect:"XPlat Code Coverage"
+
+  pack:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
-      - run: dotnet test tests/CsDealer.Tests -c Release
       - run: dotnet pack src/CsDealer -c Release -o artifacts
       - uses: actions/upload-artifact@v4
         with:
